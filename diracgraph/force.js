@@ -8,10 +8,34 @@ var vis = d3.select("#chart")
     .attr("width", w)
     .attr("height", h);
 
-d3.json("graph_dirac.json", function(json) {
+function gup( name )
+{
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return null;
+  else
+    return results[1];
+}
+
+type = gup("type")
+if (type=="dirac") {
+  var dataname = "graph_dirac.json",
+    multiplier = 2000;
+} else if (type=="sicp") {
+  var dataname = "graph_sicp.json",
+    multiplier = 1000;
+} else {
+  var dataname = "graph_dirac.json",
+    multiplier = 2000;
+}
+
+d3.json(dataname, function(json) {
   var force = d3.layout.force()
       .charge(-120)
-      .linkDistance(function(d) { return d.weight*2000; })
+      .linkDistance(function(d) { return d.weight*multiplier; })
       .nodes(json.nodes)
       .links(json.links)
       .size([w, h])
