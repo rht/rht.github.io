@@ -1,0 +1,7 @@
+﻿version:
+  0.02
+cache-duration:
+  5 d
+payment-methods:
+  _: 
+    paypal: rhtbot@protonmail.com
